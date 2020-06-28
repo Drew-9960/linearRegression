@@ -1,0 +1,47 @@
+
+import pandas as pd 
+pd.set_option('display.max_columns', 30)
+
+data = pd.read_csv('Topic_Survey_Assignment.csv')
+
+#data exploration
+data.shape
+data.columns
+data.head(10)
+data.isna()
+data.describe()
+data.count().sum()
+
+#data manipulation
+data.rename(str.upper, axis='columns', inplace = True)
+data.rename(columns={'UNNAMED: 0' : 'DATA TOPICS'}, inplace=True)
+data.columns
+
+data.set_index('DATA TOPICS', inplace=True)
+data.columns
+
+
+#####################plotting##############################
+
+data.sort_values('VERY INTERESTED', ascending = False, axis = 0, inplace = True)
+data = data.divide(2233)
+data = data.multiply(100)
+data = data.round(2)
+data
+
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+color = ['#5cb85c', '#5bc0de', '#d9534f']
+
+ax = data.plot.bar(figsize = (20, 8), alpha = 0.8, width = 0.8, color = color)
+ax.set_title("Percentage of Respondents Interest in Data Science Areas", fontsize = 16)
+
+legend = ax.legend(fontsize='12')
+ax.tick_params(axis='x', labelsize=12)
+ax.set_xlabel('Areas Of Data Science', fontsize = '14')
+
+for a in ax.patches:
+    ax.annotate(str(a.get_height()) + '%', (a.get_x() * 1.0, a.get_height() * 1.0), fontsize = 14)
+    
